@@ -14,7 +14,6 @@ before do
 end
 
 get '/' do
-  # get the json from puppetdb
   uri = URI.parse( "http://#{puppetdb_host}:#{puppetdb_port}/resources" ); params = {'query'=>'["=", "type", "Class"],]'}
   http = Net::HTTP.new(uri.host, uri.port) 
   request = Net::HTTP::Get.new(uri.path) 
