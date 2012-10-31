@@ -8,17 +8,17 @@ require 'sinatra'
 # set your puppetdb info
 puppetdb_host = 'localhost'
 puppetdb_port = '8080'
+puppetdb_query = {'query'=>'["=", "type", "Class"],]'}
 
 before do
   response["Content-Type"] = "application/yaml"
 end
 
 get '/' do
-  uri = URI.parse( "http://#{puppetdb_host}:#{puppetdb_port}/resources" ); params = {'query'=>'["=", "type", "Class"],]'}
+  uri = URI.parse( "http://#{puppetdb_host}:#{puppetdb_port}/resources" )
   http = Net::HTTP.new(uri.host, uri.port) 
   request = Net::HTTP::Get.new(uri.path) 
-  request.add_field("Accept", "application/json")
-  request.set_form_data( params )
+  request.set_form_data( puppetdb_query )
   request = Net::HTTP::Get.new( uri.path+ '?' + request.body ) 
   request.add_field("Accept", "application/json")
   response = http.request(request)
